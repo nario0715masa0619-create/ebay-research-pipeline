@@ -6,11 +6,11 @@
 function getResearchRow(researchId) {
   const sheet = getSheetByName(RESEARCH_SHEET);
   const rows = getRowsByColumn(sheet, RESEARCH_COLUMNS.RESEARCH_ID, researchId);
-  
+
   if (rows.length === 0) {
     return null;
   }
-  
+
   return rows[0];
 }
 
@@ -18,11 +18,13 @@ function getAllResearchRows() {
   const sheet = getSheetByName(RESEARCH_SHEET);
   const lastRow = getLastRowNum(sheet);
   
-  if (lastRow <= HEADER_ROW_NUM) {
+  if (lastRow <= 2) {
     return [];
   }
   
-  return getRowsAsObjects(sheet, HEADER_ROW_NUM + 1, lastRow);
+  return getRowsAsObjects(sheet, 3, lastRow).filter(row => {
+    return row.data[RESEARCH_COLUMNS.RESEARCH_ID] !== "";
+  });
 }
 
 function updateResearchRow(rowIndex, updates) {
