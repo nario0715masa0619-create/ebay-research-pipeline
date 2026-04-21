@@ -15,7 +15,7 @@ function getSheetByName(sheetName) {
 function getHeaderRow(sheet) {
   const lastCol = sheet.getLastColumn();
   if (lastCol === 0) return [];
-  const headerRange = sheet.getRange(HEADER_ROW_NUM, 1, 1, lastCol);
+  const headerRange = sheet.getRange(2, 1, 1, lastCol);
   return headerRange.getValues()[0];
 }
 
@@ -56,16 +56,16 @@ function getRowsByColumn(sheet, columnName, value) {
   }
   
   const lastRow = sheet.getLastRow();
-  if (lastRow <= HEADER_ROW_NUM) return [];
+  if (lastRow <= 2) return [];
   
-  const dataRange = sheet.getRange(HEADER_ROW_NUM + 1, 1, lastRow - HEADER_ROW_NUM, headers.length);
+  const dataRange = sheet.getRange(3, 1, lastRow - 2, headers.length);
   const values = dataRange.getValues();
   
   const results = [];
   values.forEach((rowValues, idx) => {
     if (rowValues[colIndex - 1] === value) {
       results.push({
-        rowIndex: HEADER_ROW_NUM + 1 + idx,
+        rowIndex: 3 + idx,
         data: rowToObject(headers, rowValues)
       });
     }
